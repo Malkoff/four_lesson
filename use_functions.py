@@ -49,92 +49,38 @@ while True:
         print('Неверный пункт меню')
 
 """
-
 balance = 0
+history = []
 
-
-# Главное меню
 def main_menu():
+    global balance, history
     while True:
         print('*' * 20)
-        print('1. Баланс')
+        print(f'БАЛАНС: {balance}')
+        print('1. Пополнение счета')
         print('2. Покупки')
         print('3. История покупок')
         print('4. Выход')
         print('*' * 20)
         choice = input('Выберите пункт меню: ')
         if choice == '1':
-            submenu_1()
+            balance += int(input('Введите сумму для пополнения: '))
+            print(f'Сумма {balance} поступила на счет')
         elif choice == '2':
-            purchase()
+            purchase = int(input('Введите сумму покупки: '))
+            if purchase > balance:
+                print('Недостаточно средств на балансе')
+            elif purchase <= balance:
+                name = input('Введите наименование покупки: ')
+                balance -= purchase
+                history.append([name, purchase])
+            return main_menu()
         elif choice == '3':
-            pass
+            buy = list(history)
+            print(f'Ваша история покупок\n {buy}')
         elif choice == '4':
             break
         else:
             print('Неверный пункт меню')
-
-
-# # 1. Баланс
-def submenu_1():
-    global balance
-    print('*' * 20)
-    print('1. Пополнение счета')
-    print('2. Узнать баланс')
-    print('3. Назад')
-    print('*' * 20)
-    choice = input('Выберите пункт меню: ')
-    if choice == '1':
-        replenishment = int(input('Введите сумму для пополнения: '))
-        print(f'Сумма {replenishment} поступила на счет')
-        balance += replenishment
-        print(f'На Вашем счете: {balance}')
-        return submenu_1()
-    elif choice == '2':
-        print(f'На Вашем счете: {balance}')
-        return submenu_1()
-    elif choice == '3':
-        return main_menu()
-
-value = balance
-
-
-# 2. Покупки
-def purchase():
-    print('*' * 20)
-    print('1. Питание')
-    print('2. Проезд')
-    print('3. Оплата')
-    print('4. Назад')
-    print('*' * 20)
-    choice = input('Выберете пункт меню: ')
-    if choice == '1':
-        nutrition()
-        return purchase()
-    elif choice == '4':
-        return main_menu()
-
-
-# 3. Питание
-products = {
-        'Хлеб': '30 рублей',
-        'Вода': '20 рублей',
-        'Масло': '250 рублей',
-        'Картофель': '100 рублей',
-        'Бананы': '70 рублей'
-    }
-def nutrition():
-    global value
-    for k, v in products:
-        print(k, v)
-        choice = input(f'Что желаете приобрести: ')
-        if choice == 'Хлеб':
-            price = print(f'Цена покупки составляет {v}')
-            value -= price
-            print('Спасибо за покупку!')
-            return purchase()
-
-
-# nutrition()
 
 main_menu()
